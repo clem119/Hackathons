@@ -46,7 +46,7 @@ def ElecPowerCapa():
     for line in beauvechain+elsenborn:
         l = line.strip(" ").split(",") #formatage de la ligne
         date = Date(l[1]) #utilisation de la classe Date définie ci-haut
-        speed = int(l[2]) #m/s
+        speed = int(l[2])/10 #m/s
         if int(l[3]) == 0: #vérifie que le code d'erreur ne renseigne pas d'erreur
             if IsBetween(date, d1, d2): #vérifie que <date> est bien entre <d1> et <d2>
                 if speed >= 0 and speed <= SPEEDLIMIT: #vérifie que la vitesse en m/s n'excéde pas 90km/h et soit positive
