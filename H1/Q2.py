@@ -60,14 +60,11 @@ for line in beauvechain+elsenborn:
                 print(int(l[1]))
                 if Pe > max: max = Pe
 
-bins = []
-for i in range(50): bins.append(i*max/50)
+bins = [] # bins est l'argument qui permet de répartir les données en un certain nombre de barres verticales
+for i in range(50): bins.append(i*max/50) # ici, l'argument bins est une liste qui comprend 50 intervales croissant linéairement entre 0 et la puissance max
 
-                 
-fig, ax = plt.subplots(figsize=(12, 12))
 plt.hist(x, bins=bins, edgecolor='black')
 plt.xlabel("Electric power capacity (MW)")
 plt.ylabel("Nombre d'occurrences") 
 plt.title("Electric power capacity (MW) from the 1/1/2017 to the 1/1/2021")
-ax.legend()
 plt.show()
