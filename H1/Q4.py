@@ -8,36 +8,34 @@ from scipy import stats
 
 fig = plt.figure(figsize=(20,20))
 
-r = ElecPowerCapa()
-Results=r[0]+r[1]
+#only keep date from 20170101 to 20210101 for Beauvechain
+Beauvechain = pd.read_csv("H1/Beauvechain.csv", sep=",")
 
-GammaStyle = dict(color='red', linewidth=4)
-InvGaussStyle = dict(color='purple', linewidth=4)
+#only keep date from 20170101 to 20210101 for Elsenborn
+Elsenborn = pd.read_csv("H1/Elsenborn.csv", sep=",")
 
-sns.distplot(
-    Results,
-    hist=None,
-    kde=False, 
-    fit=stats.gamma, 
-    fit_kws=GammaStyle,
-    )
+#remove negative wind speeds
+Elsenborn=Elsenborn.loc[Elsenborn["   FG"] >= 0]
+Beauvechain=Beauvechain.loc[Beauvechain["   FG"] >= 0]
 
 
-sns.distplot(
-    Results, 
-    hist=None,
-    kde=False, 
-    fit=stats.invgauss, 
-    fit_kws=InvGaussStyle,
-    label="label 2"
-    )
+#put all the non trusted value (!= 0) in ErrorsElsenborn and ErrorsBeauvechain
+ErrorsElsenborn=Elsenborn.loc[Elsenborn[" Q_FG"] != 0]
+ErrorsBeauvechain=Beauvechain.loc[Beauvechain[" Q_FG"] != 0]
+
+#only keep the wind speed values
+WindBeauvechain = np.array(Beauvechain["   FG"])
+WindElsenborn = np.array(Elsenborn["   FG"])
+
+#concatenates both of the arrays
+Results=np.concatenate((WindElsenborn, WindBeauvechain))
 
 
+plt.hist(Results, bins=100, edgecolor='black')
 
-plt.xlabel("Electric power capacity (MW)")
+plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb of occurrence") 
-plt.title("Electric power capacity (MW) from the 1/1/2017 to the 1/1/2021")
-
-fig.legend(labels=['Gamma fit','Inverse Gaussian fit'])
+plt.title("Wind speeds in Beavechain and Elsenborn")
+fig.legend(labels=['Data'])
 
 plt.show()
