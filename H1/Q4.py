@@ -27,10 +27,46 @@ WindElsenborn = np.array(Elsenborn["   FG"])
 
 #Graph
 
-#alternative
+GammaStyle = dict(color='red', linewidth=4)
+InvGaussStyle = dict(color='purple', linewidth=4)
+
 fig,ax = plt.subplots() # Instantiate figure and axes object
-ax.hist(WindBeauvechain, bins=100, label="Beauvechain", density=True, color='green', edgecolor='black') # Plot histogram of nums1
-ax.hist(WindElsenborn, bins=100, label="Elsenborn", density=True, color='blue', edgecolor='black') # Plot histogram of nums2
+ax.hist(WindBeauvechain, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA') # Plot histogram of nums1
+ax.hist(WindElsenborn, bins=100, density=True, color='wheat', edgecolor='slategrey', label='Elsenborn DATA') # Plot histogram of nums2
+
+#MLE curves
+sns.distplot(
+    WindElsenborn,
+    hist=None,
+    kde=False, 
+    fit=stats.gamma, 
+    fit_kws=dict(color='cornflowerblue', linewidth=4, label='Elsenborn gamma fit')
+)
+
+sns.distplot(
+    WindBeauvechain,
+    hist=None,
+    kde=False, 
+    fit=stats.gamma, 
+    fit_kws=dict(color='sienna', linewidth=4, label='Beauvechain gamma fit')
+)
+
+sns.distplot(
+    WindElsenborn,
+    hist=None,
+    kde=False, 
+    fit=stats.invgauss, 
+    fit_kws=dict(color='royalblue', linewidth=4, label='Elsenborn inv gauss fit')
+)
+
+sns.distplot(
+    WindBeauvechain,
+    hist=None,
+    kde=False, 
+    fit=stats.invgauss, 
+    fit_kws=dict(color='maroon', linewidth=4, label='Beauvechain inv gauss fit')
+)
+
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
 plt.title("Wind speeds compared in Beauvechain and Elsenborn (normed graph)")
