@@ -6,8 +6,6 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 from scipy import stats
 
-fig = plt.figure(figsize=(20,20))
-
 #only keep date from 20170101 to 20210101 for Beauvechain
 Beauvechain = pd.read_csv("H1/Beauvechain.csv", sep=",")
 
@@ -28,13 +26,13 @@ WindBeauvechain = np.array(Beauvechain["   FG"])
 WindElsenborn = np.array(Elsenborn["   FG"])
 
 #Graph
-fig = plt.figure(figsize=(15,10))
-plt.hist(WindBeauvechain, bins=100, color='green', edgecolor='black')
-plt.hist(WindElsenborn, bins=100, color='blue', edgecolor='black')
 
-fig.legend(labels=['Beauvechain','Elsenborn'])
+#alternative
+fig,ax = plt.subplots() # Instantiate figure and axes object
+ax.hist(WindBeauvechain, bins=100, label="Beauvechain", density=True, color='green', edgecolor='black') # Plot histogram of nums1
+ax.hist(WindElsenborn, bins=100, label="Elsenborn", density=True, color='blue', edgecolor='black') # Plot histogram of nums2
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
-plt.title("Wind speeds compared in Beauvechain and Elsenborn")
-
+plt.title("Wind speeds compared in Beauvechain and Elsenborn (normed graph)")
+plt.legend()
 plt.show()
