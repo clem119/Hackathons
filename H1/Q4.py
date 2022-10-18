@@ -26,7 +26,6 @@ WindBeauvechain = np.array(Beauvechain["   FG"])
 WindElsenborn = np.array(Elsenborn["   FG"])
 
 #Graph
-
 GammaStyle = dict(color='red', linewidth=4)
 InvGaussStyle = dict(color='purple', linewidth=4)
 
