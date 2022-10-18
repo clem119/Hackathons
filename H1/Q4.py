@@ -27,26 +27,14 @@ ErrorsBeauvechain=Beauvechain.loc[Beauvechain[" Q_FG"] != 0]
 WindBeauvechain = np.array(Beauvechain["   FG"])
 WindElsenborn = np.array(Elsenborn["   FG"])
 
-#concatenates both of the arrays
-Results=np.concatenate((WindElsenborn, WindBeauvechain))
+#Graph
+fig = plt.figure(figsize=(15,10))
+plt.hist(WindBeauvechain, bins=100, color='green', edgecolor='black')
+plt.hist(WindElsenborn, bins=100, color='blue', edgecolor='black')
 
-# plot param
-gamma = stats.gamma
-a, loc, scale = 3, 0, 2
-size = len(Results)
-
-x = np.linspace(0, Results.max(), len(Results))
-# fit
-param = gamma.fit(Results, floc=0)
-pdf_fitted = gamma.pdf(x, *param)
-plt.plot(x, pdf_fitted, color='r')
-
-plt.hist(Results, bins=30)
-# plt.hist(Results, bins=100, edgecolor='black')
-
-# plt.xlabel("Wind speed (km/h)")
-# plt.ylabel("Nb of occurrence") 
-# plt.title("Wind speeds in Beavechain and Elsenborn")
-# fig.legend(labels=['Data'])
+fig.legend(labels=['Beauvechain','Elsenborn'])
+plt.xlabel("Wind speed (km/h)")
+plt.ylabel("Nb") 
+plt.title("Wind speeds compared in Beauvechain and Elsenborn")
 
 plt.show()
