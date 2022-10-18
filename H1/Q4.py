@@ -30,12 +30,23 @@ WindElsenborn = np.array(Elsenborn["   FG"])
 #concatenates both of the arrays
 Results=np.concatenate((WindElsenborn, WindBeauvechain))
 
+# plot param
+gamma = stats.gamma
+a, loc, scale = 3, 0, 2
+size = len(Results)
 
-plt.hist(Results, bins=100, edgecolor='black')
+x = np.linspace(0, Results.max(), len(Results))
+# fit
+param = gamma.fit(Results, floc=0)
+pdf_fitted = gamma.pdf(x, *param)
+plt.plot(x, pdf_fitted, color='r')
 
-plt.xlabel("Wind speed (km/h)")
-plt.ylabel("Nb of occurrence") 
-plt.title("Wind speeds in Beavechain and Elsenborn")
-fig.legend(labels=['Data'])
+plt.hist(Results, bins=30)
+# plt.hist(Results, bins=100, edgecolor='black')
+
+# plt.xlabel("Wind speed (km/h)")
+# plt.ylabel("Nb of occurrence") 
+# plt.title("Wind speeds in Beavechain and Elsenborn")
+# fig.legend(labels=['Data'])
 
 plt.show()
