@@ -6,6 +6,8 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 from scipy import stats
 
+#alex
+
 #only keep date from 20170101 to 20210101 for Beauvechain
 Beauvechain = pd.read_csv("H1/Beauvechain.csv", sep=",")
 
@@ -41,7 +43,7 @@ sns.distplot(
     fit=stats.gamma, 
     fit_kws=dict(color='cornflowerblue', linewidth=4, label='Elsenborn gamma fit')
 )
-
+ha
 sns.distplot(
     WindBeauvechain,
     hist=None,
