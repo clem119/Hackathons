@@ -14,6 +14,16 @@ InvGaussStyle = dict(color='purple', linewidth=4)
 fig,ax = plt.subplots() # Instantiate figure and axes object
 ax.hist(WindBeauvechain, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA') # Plot histogram of nums1
 
+#takes gamma parameters
+alphaBeauvechain = stats.gamma.fit(WindBeauvechain)[0]
+betaBeauvechain = stats.gamma.fit(WindBeauvechain)[2]
+paramGammaB = stats.gamma.fit(WindBeauvechain)
+
+#takes invert gauss parameters
+muBeauvechain = stats.invgauss.fit(WindBeauvechain)[0]
+lambdBeauvechain = stats.invgauss.fit(WindBeauvechain)[2]
+paramInvGaussB = stats.invgauss.fit(WindBeauvechain)
+
 #MLE curves
 
 sns.distplot(
@@ -31,14 +41,6 @@ sns.distplot(
     fit=stats.invgauss, 
     fit_kws=dict(color='maroon', linewidth=4, label='Beauvechain inv gauss fit')
 )
-
-#takes gamma parameters
-alphaBeauvechain = stats.gamma.fit(WindBeauvechain)[0]
-betaBeauvechain = stats.gamma.fit(WindBeauvechain)[2]
-
-#takes invert gauss parameters
-muBeauvechain = stats.invgauss.fit(WindBeauvechain)[0]
-lambdBeauvechain = stats.invgauss.fit(WindBeauvechain)[2]
 
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
