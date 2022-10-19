@@ -9,10 +9,10 @@ from scipy import stats
 #alex
 
 #only keep date from 20170101 to 20210101 for Beauvechain
-Beauvechain = pd.read_csv("H1/Beauvechain.csv", sep=",")
+Beauvechain = pd.read_csv("Beauvechain.csv", sep=",")
 
 #only keep date from 20170101 to 20210101 for Elsenborn
-Elsenborn = pd.read_csv("H1/Elsenborn.csv", sep=",")
+Elsenborn = pd.read_csv("Elsenborn.csv", sep=",")
 
 #remove negative wind speeds
 Elsenborn=Elsenborn.loc[Elsenborn["   FG"] >= 0]
@@ -43,7 +43,7 @@ sns.distplot(
     fit=stats.gamma, 
     fit_kws=dict(color='cornflowerblue', linewidth=4, label='Elsenborn gamma fit')
 )
-ha
+
 sns.distplot(
     WindBeauvechain,
     hist=None,
