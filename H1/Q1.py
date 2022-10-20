@@ -3,6 +3,8 @@ import math
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+import seaborn as sns
+from scipy import stats
 
 def ElecPowerCapa():
     
@@ -13,14 +15,16 @@ def ElecPowerCapa():
     #only keep date from 20170101 to 20210101 for Elsenborn
     Elsenborn = pd.read_csv("H1/Elsenborn.csv", sep=",")
     Elsenborn=Elsenborn.loc[Elsenborn["    DATE"] >= 20170101].loc[Elsenborn["    DATE"] <= 20210101]
-    
-    #put all the non trusted value (!= 0) in ErrorsElsenborn and ErrorsBeauvechain
-    ErrorsElsenborn=Elsenborn.loc[Elsenborn[" Q_FG"] != 0] 
-    ErrorsBeauvechain=Beauvechain.loc[Beauvechain[" Q_FG"] != 0]
 
     #Only keep the trusted value
-    Elsenborn=Elsenborn[~Elsenborn["    DATE"].isin(ErrorsBeauvechain["    DATE"])]
-    Beauvechain=Beauvechain[~Beauvechain["    DATE"].isin(ErrorsElsenborn["    DATE"])]
+    for (i,j) in zip(Beauvechain.iterrows(), Elsenborn.iterrows()):
+        errorB=i[1][3]
+        errorE=j[1][3]
+        if errorB != 0: j[1][3]=1
+        if errorE != 0: i[1][3]=1
+
+    Beauvechain=Beauvechain.loc[Beauvechain[" Q_FG"] == 0]
+    Elsenborn=Elsenborn.loc[Elsenborn[" Q_FG"] == 0]
 
     #if the wind speed is higher than 90km/h then set the value in the table to 0
     #and if the wind speed is negative, then delete the line from the file
