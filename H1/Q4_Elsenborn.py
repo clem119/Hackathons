@@ -30,14 +30,6 @@ sns.distplot(
     fit_kws=dict(color='royalblue', linewidth=4, label='Elsenborn inv gauss fit')
 )
 
-#takes gamma parameters
-alphaElsenborn = stats.gamma.fit(WindElsenborn)[0]
-betaElsenborn = stats.gamma.fit(WindElsenborn)[2]
-
-#takes invert gauss parameters
-muElsenborn = stats.invgauss.fit(WindElsenborn)[0]
-lambdElsenborn = stats.invgauss.fit(WindElsenborn)[2]
-
 
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 

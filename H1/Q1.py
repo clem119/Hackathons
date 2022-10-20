@@ -7,11 +7,11 @@ from matplotlib import pyplot as plt
 def ElecPowerCapa():
     
     #only keep date from 20170101 to 20210101 for Beauvechain
-    Beauvechain = pd.read_csv("H1/Beauvechain.csv", sep=",")
+    Beauvechain = pd.read_csv("Beauvechain.csv", sep=",")
     Beauvechain=Beauvechain.loc[Beauvechain["    DATE"] >= 20170101].loc[Beauvechain["    DATE"] <= 20210101]
 
     #only keep date from 20170101 to 20210101 for Elsenborn
-    Elsenborn = pd.read_csv("H1/Elsenborn.csv", sep=",")
+    Elsenborn = pd.read_csv("Elsenborn.csv", sep=",")
     Elsenborn=Elsenborn.loc[Elsenborn["    DATE"] >= 20170101].loc[Elsenborn["    DATE"] <= 20210101]
     
     #put all the non trusted value (!= 0) in ErrorsElsenborn and ErrorsBeauvechain

@@ -32,13 +32,6 @@ sns.distplot(
     fit_kws=dict(color='maroon', linewidth=4, label='Beauvechain inv gauss fit')
 )
 
-#takes gamma parameters
-alphaBeauvechain = stats.gamma.fit(WindBeauvechain)[0]
-betaBeauvechain = stats.gamma.fit(WindBeauvechain)[2]
-
-#takes invert gauss parameters
-muBeauvechain = stats.invgauss.fit(WindBeauvechain)[0]
-lambdBeauvechain = stats.invgauss.fit(WindBeauvechain)[2]
 
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
