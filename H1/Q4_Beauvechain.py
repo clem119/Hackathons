@@ -14,16 +14,25 @@ InvGaussStyle = dict(color='purple', linewidth=4)
 fig,ax = plt.subplots() # Instantiate figure and axes object
 ax.hist(WindBeauvechain, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA') # Plot histogram of nums1
 
+span = int(max(WindBeauvechain))
+
+
+#used get value of the pdf for the highest value of wind registered
+x = np.linspace(0, span, span)
+
+#Gamma distribution
 #takes gamma parameters
-alphaBeauvechain,  = stats.gamma.fit(WindBeauvechain)[0]
-betaBeauvechain = stats.gamma.fit(WindBeauvechain)[2]
-paramGammaB = stats.gamma.fit(WindBeauvechain)
+fitted_alphaB, fitted_gammaLocB, fitted_scaleGammaB = stats.gamma.fit(WindBeauvechain)
+gammaPdf = stats.gamma.pdf(x, fitted_alphaB, fitted_gammaLocB, fitted_scaleGammaB)
 
+#Invert Gauss distribution
 #takes invert gauss parameters
-muBeauvechain = stats.invgauss.fit(WindBeauvechain)[0]
-lambdBeauvechain = stats.invgauss.fit(WindBeauvechain)[2]
-paramInvGaussB = stats.invgauss.fit(WindBeauvechain)
+fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB = stats.invgauss.fit(WindBeauvechain)
+invGaussPdf = stats.invgauss.pdf(x, fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB)
 
+print(WindBeauvechain)
+print("invert gaussian value: ",invGaussPdf)
+print("gamma values: ", gammaPdf)
 #MLE curves
 
 sns.distplot(
