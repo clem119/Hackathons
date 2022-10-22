@@ -1,15 +1,13 @@
-import re
-from symbol import parameters
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy import stats
 
 #only keep date from 20170101 to 20210101 for Beauvechain
-Beauvechain = pd.read_csv("Beauvechain.csv", sep=",")
+Beauvechain = pd.read_csv("H1/Beauvechain.csv", sep=",")
 
 #only keep date from 20170101 to 20210101 for Elsenborn
-Elsenborn = pd.read_csv("Elsenborn.csv", sep=",")
+Elsenborn = pd.read_csv("H1/Elsenborn.csv", sep=",")
 
 #remove negative wind speeds
 Elsenborn=Elsenborn.loc[Elsenborn["   FG"] >= 0]

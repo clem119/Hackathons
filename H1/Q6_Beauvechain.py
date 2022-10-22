@@ -1,4 +1,4 @@
-import imp
+
 from turtle import st
 import pandas as pd
 import numpy as np
@@ -15,8 +15,12 @@ InvGaussStyle = dict(color='purple', linewidth=4)
 fig,ax = plt.subplots() # Instantiate figure and axes object
 ax.hist(WindBeauvechain, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
 
+span = int(max(WindBeauvechain))
+x = np.linspace(0, span, span)
+
 # Compute the value of the two moments
 n = len(WindBeauvechain)
+print(n)
 M1 = np.sum(WindBeauvechain)/n
 M2 = 0
 for i in WindBeauvechain:
@@ -30,10 +34,12 @@ betabeauvechin = M2 / M1 - 1
 # Compute inverse gaussian estimators from M1 and M2 
 mubeauvechin = M2 - M1**2
 deltabeauvechin = M1**3 / (M2 - M1**2)
+y = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
 
-x = np.linspace(0, 100, 100)
-y = stats.gamma.pdf(x, a = alpha, scale = beta)
-
-plt.plot(x,y)
+#plt.plot(x,y)
+plt.xlabel("Wind speed (km/h)")
+plt.ylabel("Nb") 
+plt.title("Wind speeds in Beauvechain(normed ttesst)")
+plt.legend()
 plt.show()
 

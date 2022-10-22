@@ -1,4 +1,4 @@
-import imp
+
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
@@ -7,7 +7,6 @@ from scipy import stats
 from Q4 import WindBeauvechain
 
 #Graph
-
 GammaStyle = dict(color='red', linewidth=4)
 InvGaussStyle = dict(color='purple', linewidth=4)
 
@@ -35,7 +34,7 @@ print("invert gaussian value: ",invGaussPdf)
 print("gamma values: ", gammaPdf)
 #MLE curves
 
-sns.distplot(
+"""sns.distplot(
     WindBeauvechain,
     hist=None,
     kde=False, 
@@ -50,7 +49,7 @@ sns.distplot(
     fit=stats.invgauss, 
     fit_kws=dict(color='maroon', linewidth=4, label='Beauvechain inv gauss fit')
 )
-
+"""
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
 plt.title("Wind speeds in Beauvechain(normed graph)")
