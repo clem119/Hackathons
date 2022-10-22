@@ -1,9 +1,8 @@
-from Q1 import ElecPowerCapa
-import math
+import re
+from symbol import parameters
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-import seaborn as sns
 from scipy import stats
 
 #only keep date from 20170101 to 20210101 for Beauvechain
@@ -25,30 +24,41 @@ ErrorsBeauvechain=Beauvechain.loc[Beauvechain[" Q_FG"] != 0]
 WindBeauvechain = np.array(Beauvechain["   FG"])
 WindElsenborn = np.array(Elsenborn["   FG"])
 
-def windFarmBestDistribution(windFarmWinds):
-    span = int(max(windFarmWinds))
-    fig, ax = plt.subplots()
-    ax.hist(windFarmWinds, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA') # Plot histogram of nums1
-
-
-
-    #used get value of the pdf for the highest value of wind registered
-    x = np.linspace(0, span, span)
+def getDistributionParameters(windFarmWinds):
 
     #Gamma distribution
     #takes gamma parameters
     fitted_alphaB, fitted_gammaLocB, fitted_scaleGammaB = stats.gamma.fit(windFarmWinds)
-    gammaPdf = stats.gamma.pdf(x, fitted_alphaB, fitted_gammaLocB, fitted_scaleGammaB)
 
     #Invert Gauss distribution
     #takes invert gauss parameters
     fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB = stats.invgauss.fit(windFarmWinds)
-    invGaussPdf = stats.invgauss.pdf(x, fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB)
 
-    #print(WindBeauvechain)
-    #print("invert gaussian value: ",invGaussPdf)
-    #print("gamma values: ", gammaPdf)
-    #define x-axis values
+    gammaParameters = [fitted_alphaB, fitted_gammaLocB, fitted_scaleGammaB]
+    invertGaussParameters = [fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB]
+
+    return (gammaParameters, invertGaussParameters)
+
+def windFarmBestDistribution(windFarmWinds):
+
+    gammaParameters = getDistributionParameters(windFarmWinds)[0]
+    invertGaussParameters = getDistributionParameters(windFarmWinds)[1]
+
+    span = int(max(windFarmWinds))
+    x = np.linspace(0, span, span)
+
+    fig, ax = plt.subplots()
+    ax.hist(windFarmWinds, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA') # Plot histogram of nums1
+    
+
+    #Gamma distribution
+    #takes gamma parameters
+
+    gammaPdf = stats.gamma.pdf(x, gammaParameters[0], gammaParameters[1], gammaParameters[2])
+
+    #Invert Gauss distribution
+    
+    invGaussPdf = stats.invgauss.pdf(x, invertGaussParameters[0], invertGaussParameters[1], invertGaussParameters[2])
 
 
     #statGamma, p_valueGamma = ttest_ind(WindBeauvechain, gammaPdf)
@@ -61,6 +71,7 @@ def windFarmBestDistribution(windFarmWinds):
 
     #display plot
     plt.show()
+
 
 windFarmBestDistribution(WindBeauvechain)
 windFarmBestDistribution(WindElsenborn)
