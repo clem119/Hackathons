@@ -44,7 +44,7 @@ def ElecPowerCapa():
 
     # for each day speed in Elsenborn, append the electric power in the final result
     for i in Elsenborn["   FG"]:
-        wSpeed = (i/3.6)**3
+        wSpeed = (i/3.6)**3 #convert km/m in m/s
         Pk=8*0.5*RHO*S*wSpeed
         Pe = Pk*0.42 #because of the betz limit
         Pe = Pe/(10**6) #convert  in MW
