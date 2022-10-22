@@ -13,7 +13,7 @@ def ElecPowerCapa():
     Beauvechain=Beauvechain.loc[Beauvechain["    DATE"] >= 20170101].loc[Beauvechain["    DATE"] <= 20210101]
 
     #only keep date from 20170101 to 20210101 for Elsenborn
-    Elsenborn = pd.read_csv("H1/Elsenborn.csv", sep=",")
+    Elsenborn = pd.read_csv("Elsenborn.csv", sep=",")
     Elsenborn=Elsenborn.loc[Elsenborn["    DATE"] >= 20170101].loc[Elsenborn["    DATE"] <= 20210101]
 
     #Only keep the trusted value
@@ -44,7 +44,7 @@ def ElecPowerCapa():
 
     # for each day speed in Elsenborn, append the electric power in the final result
     for i in Elsenborn["   FG"]:
-        wSpeed = (i/3.6)**3
+        wSpeed = (i/3.6)**3 #convert km/m in m/s
         Pk=8*0.5*RHO*S*wSpeed
         Pe = Pk*0.42 #because of the betz limit
         Pe = Pe/(10**6) #convert  in MW

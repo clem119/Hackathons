@@ -15,7 +15,7 @@ fig,ax = plt.subplots() # Instantiate figure and axes object
 ax.hist(WindBeauvechain, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA') # Plot histogram of nums1
 
 #takes gamma parameters
-alphaBeauvechain = stats.gamma.fit(WindBeauvechain)[0]
+alphaBeauvechain,  = stats.gamma.fit(WindBeauvechain)[0]
 betaBeauvechain = stats.gamma.fit(WindBeauvechain)[2]
 paramGammaB = stats.gamma.fit(WindBeauvechain)
 
