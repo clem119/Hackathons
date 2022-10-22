@@ -1,4 +1,4 @@
-
+from math import *
 from turtle import st
 import pandas as pd
 import numpy as np
@@ -29,17 +29,23 @@ M2 = M2/n
 
 # Compute gamma estimators from M1 and M2 
 alphabeauvechin = M1**2 / (M2 - M1**2)
-betabeauvechin = M2 / M1 - 1
+betabeauvechin = sqrt((M2 - M1**2)/alphabeauvechin)
 
 # Compute inverse gaussian estimators from M1 and M2 
-mubeauvechin = M2 - M1**2
+mubeauvechin = M1
 deltabeauvechin = M1**3 / (M2 - M1**2)
-y = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
 
-#plt.plot(x,y)
+print(mubeauvechin, deltabeauvechin)
+
+y_gamma = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
+y_inv_gauss = stats.invgauss.pdf(x, mu = mubeauvechin, scale = deltabeauvechin)
+
+
+plt.plot(x,y_gamma)
+plt.plot(x,y_inv_gauss)
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
-plt.title("Wind speeds in Beauvechain(normed ttesst)")
+plt.title("Wind speeds in Beauvechain(normed graph)")
 plt.legend()
 plt.show()
 
