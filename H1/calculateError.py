@@ -10,7 +10,7 @@ R = ElecPowerCapa()
 
 def ComputeError(array):
 
-    span=round(max(array))
+    span=round(max(array)+1)
 
     #takes gamma parameters
     shapeG, locationG, scaleG  = stats.gamma.fit(array)
@@ -19,11 +19,10 @@ def ComputeError(array):
     #takes invert gauss parameters
     shapeI, locationI, scaleI = stats.invgauss.fit(array)
 
-    x = np.linspace (0, span, span) #creates an array with of percentil
-
+    x = np.linspace (0, 110, 110) #creates an array with of percentil
+    print(x)
     gammaPdf = stats.gamma.pdf(x, shapeG, loc=locationG, scale=scaleG) #store all the value of the gamma pdf for each percitil
     invGaussPdf = stats.invgauss.pdf(x, shapeI, loc=locationI, scale=scaleI) #store all the value of the inverte gauss pdf for each percentil
-
     #creates an array that has the amount of value for each value of MW rounded
     def makeArray(span):
         a = np.empty(span)
