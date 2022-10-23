@@ -2,7 +2,7 @@ from math import sqrt
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy import stats
-from Q4 import WindBeauvechain, getDistributionParameters
+from Q4 import WindBeauvechain, WindElsenborn, getDistributionParameters
 
 #get the gamma distribution parameters
 alpha, loc, scale = getDistributionParameters(WindBeauvechain)[0]
@@ -10,9 +10,6 @@ alpha, loc, scale = getDistributionParameters(WindBeauvechain)[0]
 #takes the highest wind
 span = int(max(WindBeauvechain))
 x = np.linspace(0, span, span)
-
-fig,ax = plt.subplots() # Instantiate figure and axes object
-ax.hist(WindBeauvechain, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
 
 fig,ax = plt.subplots() # Instantiate figure and axes object
 ax.hist(WindBeauvechain, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
@@ -43,4 +40,3 @@ plt.ylabel("Nb")
 plt.title("Wind speeds in Beauvechain(normed graph)")
 plt.legend()
 plt.show()
-

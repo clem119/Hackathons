@@ -3,46 +3,50 @@ import re
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy import stats
-from Q4 import WindBeauvechain, WindElsenborn
-from Q5 import fitted_alphaBeauv, fitted_gammaLocBeauv, fitted_scaleGammaBeauv, fitted_alphaElsen, fitted_gammaLocElsen, fitted_scaleGammaElsen
+from Q4 import WindBeauvechain, WindElsenborn, getDistributionParameters
 
-def twoMoments(windfarm):
-    n = len(windfarm)
-    M1 = np.sum(windfarm)/n
-    M2 = 0
-    for i in windfarm:
-        M2 += i**2
-    M2 = M2/n
-    return (M1, M2)
+def Q6(array, place):
 
-def estimators(windfarm):
-    span = int(max(windfarm))
+    #get the gamma distribution parameters with MLE
+    alpha, loc, scale = getDistributionParameters(array)[0]
+
+    #takes the highest wind
+    span = int(max(array))
     x = np.linspace(0, span, span)
 
-    M1 = twoMoments(windfarm)[0]
-    M2 = twoMoments(windfarm)[1]
+    fig,ax = plt.subplots() # Instantiate figure and axes object
+    ax.hist(array, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label=f'{place} DATA')
+
+    # Compute the value of the two moments
+    M1 = np.mean(array)
+    M2 = 0
+    for i in array:
+        M2 += i**2
+    M2 = M2/len(array)
 
     # Compute gamma estimators from M1 and M2 
-    alpha = M1**2 / (M2 - M1**2)
-    scale = sqrt((M2 - M1**2)/alpha)
-    print(alpha, scale)
-    pdfGammaMM = stats.gamma.pdf(x, a = alpha, scale = scale)
-    pdfGammaMLE = stats.gamma.pdf(x, fitted_alphaBeauv, fitted_gammaLocBeauv, fitted_scaleGammaBeauv)
+    alphaMM = M1**2 / (M2 - M1**2)
+    betaMM = sqrt((M2 - M1**2)/alphaMM)
 
-    return (pdfGammaMLE, pdfGammaMM)
+    pdfGammaMLE = stats.gamma.pdf(x, a = alphaMM, scale = betaMM)
+    pdfGammaMM = stats.gamma.pdf(x, alpha, loc, scale)
 
-def plotgraph(windfarm):
-    span = int(max(windfarm))
-    x = np.linspace(0, span, span)
-    fig,ax = plt.subplots() # Instantiate figure and axes object
-    ax.hist(windfarm, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
-    plt.plot(x,estimators(windfarm)[0], label="Gamma fit MLE", color="greenyellow")
-    plt.plot(x,estimators(windfarm)[1], label="gamma fit MM", color="forestgreen")
+    print("=====================================================================")
+    print(f"Comparing estimators for both methods (MM and MLE) for {place}:")
+    print(f"alpha (Method of moments): {alphaMM}")
+    print(f"beta (Method of moments): {betaMM}")
+    print(f"alpha (MLE): {alpha}")
+    print(f"alpha (MLE): {scale}")
+    print("=====================================================================\n")
+
+    plt.plot(x,pdfGammaMLE, label="Gamma fit MLE")
+    plt.plot(x,pdfGammaMM, label="gamma fit MM")
     plt.xlabel("Wind speed (km/h)")
     plt.ylabel("Nb") 
-    plt.title("Wind speeds(normed graph)")
+    plt.title(f"Wind speeds in {place}(normed graph)")
     plt.legend()
     plt.show()
 
-plotgraph(WindBeauvechain)
-plotgraph(WindElsenborn)
+Q6(WindBeauvechain, "Beauvechain")
+Q6(WindElsenborn, "Elsenborn")
+
