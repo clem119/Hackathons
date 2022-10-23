@@ -13,7 +13,7 @@ GammaStyle = dict(color='red', linewidth=4)
 InvGaussStyle = dict(color='purple', linewidth=4)
 
 fig,ax = plt.subplots() # Instantiate figure and axes object
-ax.hist(WindElsenborn, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
+ax.hist(WindElsenborn, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Elsenborn DATA')
 
 span = int(max(WindElsenborn))
 x = np.linspace(0, span, span)
