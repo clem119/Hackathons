@@ -38,6 +38,10 @@ print(mubeauvechin, deltabeauvechin)
 pdfGammaMLE = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
 pdfGammaMM = stats.gamma.pdf(x, fitted_alphaBeauv, fitted_gammaLocBeauv, fitted_scaleGammaBeauv)
 
+print("alpha MM:", alphabeauvechin)
+print("beta MM:", betabeauvechin)
+print("alpha MLE:", fitted_alphaBeauv)
+print("beta MLE:", fitted_scaleGammaBeauv)
 
 plt.plot(x,pdfGammaMLE)
 plt.plot(x,pdfGammaMM)
