@@ -29,7 +29,6 @@ gammaPdf = stats.gamma.pdf(x, fitted_alphaB, fitted_gammaLocB, fitted_scaleGamma
 fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB = stats.invgauss.fit(WindBeauvechain)
 invGaussPdf = stats.invgauss.pdf(x, fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB)
 
-print(fitted_muB , fitted_scaleInvGaussB)
 #MLE curves
 
 sns.distplot(

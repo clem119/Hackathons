@@ -35,8 +35,6 @@ betabeauvechin = sqrt((M2 - M1**2)/alphabeauvechin)
 mubeauvechin = M1
 deltabeauvechin = M1**3 / (M2 - M1**2)
 
-print(mubeauvechin, deltabeauvechin)
-
 y_gamma = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
 y_inv_gauss = stats.invgauss.pdf(x, mu = mubeauvechin, scale = deltabeauvechin)
 
