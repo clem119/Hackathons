@@ -1,46 +1,43 @@
-from math import *
-from turtle import st
-import pandas as pd
+from math import sqrt
 import numpy as np
 from matplotlib import pyplot as plt
-import seaborn as sns
 from scipy import stats
-from Q4 import WindBeauvechain
+from Q4 import WindBeauvechain, getDistributionParameters
 
+#get the gamma distribution parameters
+alpha, loc, scale = getDistributionParameters(WindBeauvechain)[0]
 
-#graph
-GammaStyle = dict(color='red', linewidth=4)
-InvGaussStyle = dict(color='purple', linewidth=4)
-
-fig,ax = plt.subplots() # Instantiate figure and axes object
-ax.hist(WindBeauvechain, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
-
+#takes the highest wind
 span = int(max(WindBeauvechain))
 x = np.linspace(0, span, span)
 
+fig,ax = plt.subplots() # Instantiate figure and axes object
+ax.hist(WindBeauvechain, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
+
+fig,ax = plt.subplots() # Instantiate figure and axes object
+ax.hist(WindBeauvechain, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
+
 # Compute the value of the two moments
-n = len(WindBeauvechain)
-print(n)
-M1 = np.sum(WindBeauvechain)/n
+M1 = np.mean(WindBeauvechain)
 M2 = 0
 for i in WindBeauvechain:
     M2 += i**2
-M2 = M2/n
+M2 = M2/len(WindBeauvechain)
 
 # Compute gamma estimators from M1 and M2 
-alphabeauvechin = M1**2 / (M2 - M1**2)
-betabeauvechin = sqrt((M2 - M1**2)/alphabeauvechin)
+alphaMM = M1**2 / (M2 - M1**2)
+betaMM = sqrt((M2 - M1**2)/alphaMM)
 
-# Compute inverse gaussian estimators from M1 and M2 
-mubeauvechin = M1
-deltabeauvechin = M1**3 / (M2 - M1**2)
+pdfGammaMLE = stats.gamma.pdf(x, a = alphaMM, scale = betaMM)
+pdfGammaMM = stats.gamma.pdf(x, alpha, loc, scale)
 
-y_gamma = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
-y_inv_gauss = stats.invgauss.pdf(x, mu = mubeauvechin, scale = deltabeauvechin)
+print("alpha MM:", alphaMM)
+print("beta MM:", betaMM)
+print("alpha MLE:", alpha)
+print("beta MLE:", scale)
 
-
-plt.plot(x,y_gamma)
-plt.plot(x,y_inv_gauss)
+plt.plot(x,pdfGammaMLE, label="Gamma fit MLE")
+plt.plot(x,pdfGammaMM, label="gamma fit MM")
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
 plt.title("Wind speeds in Beauvechain(normed graph)")
