@@ -1,22 +1,20 @@
 from math import *
-from turtle import st
-import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-import seaborn as sns
 from scipy import stats
 from Q4 import WindBeauvechain
+from Q5 import fitted_alphaBeauv, fitted_gammaLocBeauv, fitted_scaleGammaBeauv
 
 
+
+span = int(max(WindBeauvechain))
+x = np.linspace(0, span, span)
 #graph
 GammaStyle = dict(color='red', linewidth=4)
 InvGaussStyle = dict(color='purple', linewidth=4)
 
 fig,ax = plt.subplots() # Instantiate figure and axes object
-ax.hist(WindBeauvechain, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
-
-span = int(max(WindBeauvechain))
-x = np.linspace(0, span, span)
+ax.hist(WindBeauvechain, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
 
 # Compute the value of the two moments
 n = len(WindBeauvechain)
@@ -37,12 +35,12 @@ deltabeauvechin = M1**3 / (M2 - M1**2)
 
 print(mubeauvechin, deltabeauvechin)
 
-y_gamma = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
-y_inv_gauss = stats.invgauss.pdf(x, mu = mubeauvechin, scale = deltabeauvechin)
+pdfGammaMLE = stats.gamma.pdf(x, a = alphabeauvechin, scale = betabeauvechin)
+pdfGammaMM = stats.gamma.pdf(x, fitted_alphaBeauv, fitted_gammaLocBeauv, fitted_scaleGammaBeauv)
 
 
-plt.plot(x,y_gamma)
-plt.plot(x,y_inv_gauss)
+plt.plot(x,pdfGammaMLE)
+plt.plot(x,pdfGammaMM)
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
 plt.title("Wind speeds in Beauvechain(normed graph)")
