@@ -1,49 +1,43 @@
-from math import *
-import pandas as pd
+from math import sqrt
 import numpy as np
 from matplotlib import pyplot as plt
-import seaborn as sns
 from scipy import stats
-from Q4 import WindElsenborn
+from Q4 import WindElsenborn, getDistributionParameters
 
+#get the gamma distribution parameters with MLE
+alphaMLE, locMLE, scaleMLE = getDistributionParameters(WindElsenborn)[0]
 
-#graph
-GammaStyle = dict(color='red', linewidth=4)
-InvGaussStyle = dict(color='purple', linewidth=4)
-
-fig,ax = plt.subplots() # Instantiate figure and axes object
-ax.hist(WindElsenborn, bins=100, density=True, color='palevioletred', edgecolor='slategrey', label='Elsenborn DATA')
-
+#takes the highest wind
 span = int(max(WindElsenborn))
 x = np.linspace(0, span, span)
 
+fig,ax = plt.subplots() # Instantiate figure and axes object
+ax.hist(WindElsenborn, bins=span, density=True, color='palevioletred', edgecolor='slategrey', label='Beauvechain DATA')
+
 # Compute the value of the two moments
-n = len(WindElsenborn)
-print(n)
-M1 = np.sum(WindElsenborn)/n
+M1 = np.mean(WindElsenborn)
 M2 = 0
 for i in WindElsenborn:
     M2 += i**2
-M2 = M2/n
+M2 = M2/len(WindElsenborn)
 
 # Compute gamma estimators from M1 and M2 
-alphaElsenborn = M1**2 / (M2 - M1**2)
-betaElsenborn = sqrt((M2 - M1**2)/alphaElsenborn)
+alphaMM = M1**2 / (M2 - M1**2)
+betaMM = sqrt((M2 - M1**2)/alphaMM)
 
-# Compute inverse gaussian estimators from M1 and M2 
-muElsenborn = M1
-deltaElsenborn = M1**3 / (M2 - M1**2)
+pdfGammaMLE = stats.gamma.pdf(x, a = alphaMM, scale = betaMM)
+pdfGammaMM = stats.gamma.pdf(x, alphaMLE, locMLE, scaleMLE)
 
-print(muElsenborn, deltaElsenborn)
+print("alpha MM:", alphaMM)
+print("beta MM:", betaMM)
+print("alpha MLE:", alphaMLE)
+print("beta MLE:", scaleMLE)
 
-y_gamma = stats.gamma.pdf(x, a = alphaElsenborn, scale = betaElsenborn)
-y_inv_gauss = stats.invgauss.pdf(x, mu = muElsenborn, scale = deltaElsenborn)
-
-
-plt.plot(x,y_gamma)
-plt.plot(x,y_inv_gauss)
+plt.plot(x,pdfGammaMLE, label="Gamma fit MLE")
+plt.plot(x,pdfGammaMM, label="gamma fit MM")
 plt.xlabel("Wind speed (km/h)")
 plt.ylabel("Nb") 
-plt.title("Wind speeds in Elsenborn(normed graph)")
+plt.title("Wind speeds in Beauvechain(normed graph)")
 plt.legend()
 plt.show()
+
