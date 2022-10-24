@@ -26,14 +26,14 @@ def getDistributionParameters(windFarmWinds):
 
     #Gamma distribution
     #takes gamma parameters
-    fitted_alphaB, fitted_gammaLocB, fitted_scaleGammaB = stats.gamma.fit(windFarmWinds)
+    alpha, gammaLoc, scaleGamma = stats.gamma.fit(windFarmWinds)
 
     #Invert Gauss distribution
     #takes invert gauss parameters
-    fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB = stats.invgauss.fit(windFarmWinds)
+    mu, invgaussLoc, scaleInvGauss = stats.invgauss.fit(windFarmWinds)
 
-    gammaParameters = [fitted_alphaB, fitted_gammaLocB, fitted_scaleGammaB]
-    invertGaussParameters = [fitted_muB, fitted_invgaussLocB, fitted_scaleInvGaussB]
+    gammaParameters = [alpha, gammaLoc, scaleGamma]
+    invertGaussParameters = [mu, invgaussLoc, scaleInvGauss]
 
     return (gammaParameters, invertGaussParameters)
 
@@ -58,10 +58,6 @@ def windFarmBestDistribution(windFarmWinds):
     
     invGaussPdf = stats.invgauss.pdf(x, invertGaussParameters[0], invertGaussParameters[1], invertGaussParameters[2])
 
-
-    #statGamma, p_valueGamma = ttest_ind(WindBeauvechain, gammaPdf)
-    #print("stat:", statGamma)
-    #print("pvalue:", p_valueGamma)
 
     #create plot of Gamma distribution
     plt.plot(x, gammaPdf)

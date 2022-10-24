@@ -1,14 +1,11 @@
 from math import *
-import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
-import seaborn as sns
 import scipy.stats as sc
 import random as rn
-from Q4 import WindBeauvechain
-from Q4 import WindElsenborn
+from Q4 import WindBeauvechain, WindElsenborn
 
-def Q7(array, place):
+def Q7(array, place, distribution):
 
     #only keep 500 wind speeds
     winds = array[:500]

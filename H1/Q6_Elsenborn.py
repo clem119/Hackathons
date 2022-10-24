@@ -5,7 +5,7 @@ from scipy import stats
 from Q4 import WindElsenborn, getDistributionParameters
 
 #get the gamma distribution parameters with MLE
-alphaMLE, locMLE, scaleMLE = getDistributionParameters(WindElsenborn)[0]
+alphaMLE, locMLE, scaleMLE = getDistributionParameters(WindElsenborn)[1]
 
 #takes the highest wind
 span = int(max(WindElsenborn))
@@ -25,8 +25,8 @@ M2 = M2/len(WindElsenborn)
 alphaMM = M1**2 / (M2 - M1**2)
 betaMM = sqrt((M2 - M1**2)/alphaMM)
 
-pdfGammaMLE = stats.gamma.pdf(x, a = alphaMM, scale = betaMM)
-pdfGammaMM = stats.gamma.pdf(x, alphaMLE, locMLE, scaleMLE)
+pdfGammaMLE = stats.invgauss.pdf(x, a = alphaMM, scale = betaMM)
+pdfGammaMM = stats.invgauss.pdf(x, alphaMLE, locMLE, scaleMLE)
 
 print("alpha MM:", alphaMM)
 print("beta MM:", betaMM)

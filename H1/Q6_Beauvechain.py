@@ -2,7 +2,7 @@ from math import sqrt
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy import stats
-from Q4 import WindBeauvechain, WindElsenborn, getDistributionParameters
+from Q4 import WindBeauvechain, getDistributionParameters
 
 #get the gamma distribution parameters
 alpha, loc, scale = getDistributionParameters(WindBeauvechain)[0]
