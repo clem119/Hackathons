@@ -1,2 +1,4 @@
-import datetime
-import pandas as pd
+from imports import *
+
+date = pd.read_csv("Data_energy_load.py")
+
