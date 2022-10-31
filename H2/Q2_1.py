@@ -1,11 +1,14 @@
+from tracemalloc import Statistic
 from imports import *
+import scipy.stats as sc
+from sklearn import linear_model
+import statsmodels.api as sm
 
-df = pd.read_csv("Data_heating_cooling.csv")
+df = pd.read_csv("H2/Data_heating_cooling.csv")
 Y = df["Cooling_Load"]
 
 Orientation = df["Orientation"]
 OrientationDummies = pd.get_dummies(Orientation, prefix="O", drop_first=True)
-print(OrientationDummies)
 
 GAD = df["Glazing_Area_Distribution"]
 GADDUmmies = pd.get_dummies(GAD, prefix="GAD", drop_first=True)
@@ -24,3 +27,13 @@ X.insert(0, "Intercept", np.ones(len(X)), True)
 X = X.join(OrientationDummies)
 X= X.join(GADDUmmies)
 
+#computing the linear regression
+mod = sm.OLS(Y,X)
+fii = mod.fit()
+
+#getting the coefs, p-values and intercept
+coefs = fii.summary2().tables[1]['Coef.']
+p_values = fii.pvalues
+
+print('F-Statistic: ',fii.fvalue)
+print('R2: ',fii.rsquared)
