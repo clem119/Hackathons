@@ -1,10 +1,9 @@
 from tracemalloc import Statistic
 from imports import *
 import scipy.stats as sc
-from sklearn import linear_model
 import statsmodels.api as sm
 
-df = pd.read_csv("H2/Data_heating_cooling.csv")
+df = pd.read_csv("Data_heating_cooling.csv")
 Y = df["Cooling_Load"]
 
 Orientation = df["Orientation"]
