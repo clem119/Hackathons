@@ -1,7 +1,4 @@
-from tracemalloc import Statistic
 from imports import *
-import scipy.stats as sc
-import statsmodels.api as sm
 
 df = pd.read_csv("Data_heating_cooling.csv")
 Y = df["Cooling_Load"]
@@ -26,13 +23,61 @@ X.insert(0, "Intercept", np.ones(len(X)), True)
 X = X.join(OrientationDummies)
 X= X.join(GADDUmmies)
 
+
+#part 1
 #computing the linear regression
 mod = sm.OLS(Y,X)
 fii = mod.fit()
+
+#part 2
 
 #getting the coefs, p-values and intercept
 coefs = fii.summary2().tables[1]['Coef.']
 p_values = fii.pvalues
 
+#print(p_values)
+
+column_headers = list(X.columns.values)
+counter = 0
+total = 0
+
+string = ""
+
+for i in range(len(p_values)):
+    if p_values[i] <= 0.05:
+        counter += 1
+    else:
+        string += "\n"
+        X = X.drop(column_headers[i], axis='columns')
+        string+=f"{column_headers[i]}"
+    total+=1
+
+#print answers
+print("=============================================")
 print('F-Statistic: ',fii.fvalue)
 print('R2: ',fii.rsquared)
+print("=============================================\n")
+
+print("=============================================")
+print(f"p-values:\n\n{p_values[1:]}")
+print("=============================================\n")
+
+print("=============================================")
+print(f"Only {counter} coefficients over {total} were at least 95% significant.")
+print(f"The following {total-counter} column(s) have been dropped:")
+print(string)
+print("=============================================\n")
+
+print(X)
+
+# #according to the course method
+# x = X.to_numpy()
+# y = Y.to_numpy()
+
+# xtx = np.matmul(x.transpose(), x)
+# xty = np.matmul(x.transpose(), y)
+# xtxinv = np.linalg.inv(xtx)
+# betaHat = np.matmul(xtxinv, xty)
+# print(fii.summary2())
+# print("\nvalues obtained by matrices operations:")
+# for i in betaHat: print(i)
