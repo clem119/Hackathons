@@ -5,6 +5,7 @@ from Q2_1 import X, Y
 #part 1
 #computing the linear regression
 f2 = sm.OLS(Y,X).fit()
+print(f2.summary())
 
 #part 2
 
