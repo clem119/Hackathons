@@ -1,6 +1,6 @@
 from imports import *
 
-df = pd.read_csv("/home/jabier/Desktop/Stats/Hackatons/Hackathons/H2/Data_energy_load.csv", sep=";")
+df = pd.read_csv("Data_energy_load.csv", sep=";")
 
 df["Date"] = pd.to_datetime(df["Date"])
 
