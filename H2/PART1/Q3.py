@@ -1,61 +1,48 @@
 
 from imports import *
-from Q2_1 import X, Y
+from Q2 import X, Y, f1, p_values
 
 #part 1
+
+column_headers = list(X.columns.values)
+counter = 0
+total = 0
+
+string = ""
+
+for i in range(len(p_values)):
+    if p_values[i] <= 0.05:
+        counter += 1
+    else:
+        string += "\n"
+        X = X.drop(column_headers[i], axis='columns')
+        string+=f"{column_headers[i]}"
+    total+=1
+
+print("=============================================")
+print(f"Only {counter} coefficients over {total} were at least 95% significant.")
+print(f"The following {total-counter} column(s) have been dropped:")
+print(string)
+print("=============================================\n")
+
 #computing the linear regression
 f2 = sm.OLS(Y,X).fit()
-print(f2.summary())
+S2 = f2.summary()
 
 #part 2
 
-#getting the coefs, p-values and intercept
-coefs = f2.summary2().tables[1]['Coef.']
-p_values2 = f2.pvalues
-
-#compute log-likelihood
-
-#compute AIC
-
-#compute BIC
-
 #print answers
-print("=============================================")
-print('F-Statistic: ',f2.fvalue)
-print('R2: ',f2.rsquared)
-print("=============================================\n")
+
+RES = [
+    [f1.fvalue, f2.fvalue],
+    [f1.rsquared, f2.rsquared], 
+    [f1.llf, f2.llf],
+    [f1.aic, f2.aic],
+    [f1.bic, f2.bic]
+    ]
+
+d = pd.DataFrame(RES, columns = ["BEFORE", "AFTER"], index=["F-Statistic", "R2", "Log-Likelihood", "AIC", "BIC"])
 
 print("=============================================")
-print(f"p-values:\n\n{p_values2[1:]}")
+print(d)
 print("=============================================\n")
-
-
-# source:
-# https://www.earthinversion.com/statistics/maximum-likelihood-estimation-with-examples-in-python/
-
-def lik(parameters, x, y): 
-    m = parameters[0] 
-    b = parameters[1] 
-    sigma = parameters[2] 
-    
-    y_exp = m * x + b 
-        
-    L = np.sum(np.log(stats.norm.pdf(y - y_exp, loc = 0, scale=sigma)))
-    return -L
-
-
-def constraints(parameters):
-    sigma = parameters[2]
-    return sigma
-
-cons = {
-    'type': 'ineq',
-    'fun': constraints
-}
-
-for x in X.to_numpy():
-    lik_model = scipy.optimize.minimize(lik, np.ones(len(Y))*0.5, args=(x, Y,), constraints=cons)
-    print(lik_model)
-
-def likelihood(yi, xi, beta):
-    L = 0

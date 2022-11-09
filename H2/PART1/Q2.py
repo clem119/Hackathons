@@ -27,48 +27,24 @@ X= X.join(GADDUmmies)
 #part 1
 #computing the linear regression
 mod = sm.OLS(Y,X)
-fii = mod.fit()
+f1 = mod.fit()
 
 #part 2
 
 #getting the coefs, p-values and intercept
-coefs = fii.summary2().tables[1]['Coef.']
-p_values = fii.pvalues
-
-#print(p_values)
-
-column_headers = list(X.columns.values)
-counter = 0
-total = 0
-
-string = ""
-
-for i in range(len(p_values)):
-    if p_values[i] <= 0.05:
-        counter += 1
-    else:
-        string += "\n"
-        X = X.drop(column_headers[i], axis='columns')
-        string+=f"{column_headers[i]}"
-    total+=1
+coefs = f1.summary2().tables[1]['Coef.']
+p_values = f1.pvalues
+print(p_values)
 
 #print answers
 print("=============================================")
-print('F-Statistic: ',fii.fvalue)
-print('R2: ',fii.rsquared)
+print('F-Statistic: ',f1.fvalue)
+print('R2: ',f1.rsquared)
 print("=============================================\n")
 
 print("=============================================")
 print(f"p-values:\n\n{p_values[1:]}")
 print("=============================================\n")
-
-print("=============================================")
-print(f"Only {counter} coefficients over {total} were at least 95% significant.")
-print(f"The following {total-counter} column(s) have been dropped:")
-print(string)
-print("=============================================\n")
-
-print(X)
 
 # #according to the course method
 # x = X.to_numpy()
