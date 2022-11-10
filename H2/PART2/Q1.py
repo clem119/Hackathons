@@ -1,15 +1,36 @@
 from imports import *
 
-df = pd.read_csv("H2/Data_energy_load.csv", sep=";")
+df2 = pd.read_csv("H2/Data_energy_load.csv", sep=";")
 
-df["Date"] = pd.to_datetime(df["Date"])
+df2["Date"] = pd.to_datetime(df2["Date"]).to_numpy()
+LOAD_DATA = np.array(df2["Load"])
 
-#C'est juste les loads en fonction du temps
-LOAD_DATA = np.array(df["Load"])
+fig, ax = plt.subplots(figsize=(15, 15))
 
-plt.plot([i for i in range(len(df["Date"]))], LOAD_DATA)
+plt.plot([i for i in range(len(df2["Date"]))], LOAD_DATA, color="slategrey")
 plt.xlabel("Time")
 plt.ylabel("Consumption")
-plt.show()
 
-#print(df)
+colors = [
+    "firebrick",
+    "brown",
+    "indianred",
+    "lightcoral"
+]
+for i in range(4):
+    plt.axvline(x = i*8760, 
+    color = colors[i],
+    linewidth=5
+    )
+
+
+ax.legend([
+    "DATA", 
+    "02/01/2015", 
+    "02/01/2016", 
+    "02/01/2017", 
+    "02/01/2018"
+    ])
+ax.set_xticks([])
+plt.title("Time series of consumption")
+plt.show()
