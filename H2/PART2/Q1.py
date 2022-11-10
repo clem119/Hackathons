@@ -1,6 +1,6 @@
 from imports import *
 
-df = pd.read_csv("Data_energy_load.csv", sep=";")
+df = pd.read_csv("H2/Data_energy_load.csv", sep=";")
 
 df["Date"] = pd.to_datetime(df["Date"])
 
@@ -12,4 +12,4 @@ plt.xlabel("Time")
 plt.ylabel("Consumption")
 plt.show()
 
-print(df)
+#print(df)
