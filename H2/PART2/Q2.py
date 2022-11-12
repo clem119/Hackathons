@@ -34,14 +34,16 @@ x2 = [i for i in range(24)]
 
 #plot
 fig1, ax1 = plt.subplots(figsize=(15, 10))
-plt.plot(x1, week, alpha = 0.8, marker = 'o')
+plt.bar(x1, week, color="silver")
+plt.plot(x1, week, marker = 'o', linewidth=3, color="slateblue")
 plt.xlabel("Weekday")
 plt.ylabel("Electric Consumption")
 plt.title("Average electric consumption per day")
 plt.xticks(x1, bins1)
 
 fig2, ax2 = plt.subplots(figsize=(15, 10))
-plt.plot(x2, hours, alpha=0.8, marker='o')
+plt.bar(x2, hours, color="silver")
+plt.plot(x2, hours, marker='o', linewidth=3, color="slateblue")
 plt.xlabel("Hours")
 plt.ylabel("Electric Consumption")
 plt.title("Average electric consumption per hour")
