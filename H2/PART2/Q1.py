@@ -2,7 +2,8 @@ from imports import *
 
 df2 = pd.read_csv("H2/Data_energy_load.csv", sep=";")
 
-df2["Date"] = pd.to_datetime(df2["Date"]).to_numpy()
+df2["Date"] = pd.to_datetime(df2["Date"], format='%d-%m-%Y')
+
 LOAD_DATA = np.array(df2["Load"])
 
 fig, ax = plt.subplots(figsize=(15, 15))
