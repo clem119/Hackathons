@@ -2,7 +2,19 @@ from imports import *
 
 df2 = pd.read_csv("H2/Data_energy_load.csv", sep=";")
 
-df2["Date"] = pd.to_datetime(df2["Date"], format='%d-%m-%Y')
+new_dates = []
+
+for i in df2.iterrows():
+    string = i[1][0]
+    modif = f'20{string[6:]}{string[3:5]}{string[:2]}'
+    new_dates.append(modif)
+
+df2 = df2.drop(["Date"], axis=1)
+df2.insert(0, "Date", new_dates, True)
+
+df2["Date"] = pd.to_datetime(df2["Date"], format='%Y%m%d', errors='ignore')
+for i in df2["Date"]:
+    print(i)
 
 LOAD_DATA = np.array(df2["Load"])
 

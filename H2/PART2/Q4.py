@@ -12,7 +12,7 @@ training_set = df2.loc[df2["Date"] <= time2]
 test = df2.loc[df2["Date"] >= time3].loc[df2["Date"] <= time4]
 
 #print(training_set)
-for i in training_set["Date"]: print(i)
+for i in df2["Date"]: print(i)
 
 #print(test)
 
