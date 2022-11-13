@@ -7,7 +7,7 @@ Hourdummies = pd.get_dummies(Hour, prefix="H", drop_first=True)
 
 Weekday = df2["Weekday"]
 Weekdaydummies = pd.get_dummies(Weekday, prefix="W", drop_first=True)
-
+print(Hourdummies)
 Array = df2.drop(["Hour", "Weekday"], axis=1)
 Array.insert(0, "Constant", np.ones(len(Array)), True)
 
