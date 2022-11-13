@@ -8,7 +8,7 @@ OrientationDummies = pd.get_dummies(Orientation, prefix="O", drop_first=True)
 
 GAD = df["Glazing_Area_Distribution"]
 GADDUmmies = pd.get_dummies(GAD, prefix="GAD", drop_first=True)
-
+print(GADDUmmies)
 #We drop the "Surface_Area" because it is a linear combination of the "Wall_Area" and "Roof_Area" columns
 #We drop the "Orientation" column because we changed it in dummy variables
 #We drop the "Glazing_Area_Distribution" column because we changed it in dummy variables
