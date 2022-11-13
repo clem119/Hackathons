@@ -1,6 +1,6 @@
 from imports import *
 
-df2 = pd.read_csv("Data_energy_load.csv", sep=";")
+df2 = pd.read_csv("H2/Data_energy_load.csv", sep=";")
 
 new_dates = []
 
