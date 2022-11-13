@@ -1,23 +1,27 @@
 from imports import *
-from Q4 import test
+from Q4 import test, predictData
 
-Y = test["Load"]
+predictedTest = predictData(test)
+#print(predictedTest)
 
-X = test.drop(["Date", "Hour", "Weekday", "Load"], axis=1)
-
-Hour = test["Hour"]
-Hourdummies = pd.get_dummies(Hour, prefix="H", drop_first=True)
-
-Weekday = test["Weekday"]
-Weekdaydummies = pd.get_dummies(Weekday, prefix="W", drop_first=True)
-
-X = X.join(Hourdummies)
-X = X.join(Weekdaydummies)
-
-mod = sm.OLS(Y, X)
-f2 = mod.fit()
+dayMean = test.groupby(test['Date'].dt.day)["Load"].mean().to_numpy()
 
 
-coefs = f2.summary2().tables[1]['Coef.']
-print(coefs)
+predictDayMean = []
+for i in range(34320, 35040, 24):
+    dayConsuption = 0;
+    for j in range(24):
+        dayConsuption += predictedTest[i+j]
+    predictDayMean.append(dayConsuption/24)
 
+x_true = [i for i in range(30)]
+MAE = mae(dayMean, predictDayMean)
+# plot the data
+
+plt.plot(x_true,dayMean)
+plt.errorbar(x_true, predictDayMean, MAE)
+plt.title('forecast and real value with noise')
+plt.xlabel('Load values')
+plt.ylabel('days from 02/12/2018 and 31/12/2018')
+plt.legend(['real values','forcast values'])
+plt.show()

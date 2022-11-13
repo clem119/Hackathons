@@ -32,8 +32,8 @@ def predictData(data):
 
 trainingPredictedValue = predictData(training_set)
 
-print("predicted values for the training set: \n", trainingPredictedValue)
+#print("predicted values for the training set: \n", trainingPredictedValue)
 
 TrainingSetError = mae(training_set["Load"], trainingPredictedValue)
 
-print("Mean absolute error for the training set ", TrainingSetError)
+#print("Mean absolute error for the training set ", TrainingSetError)
