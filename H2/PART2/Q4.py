@@ -1,7 +1,6 @@
 from imports import *
 from Q1 import df2
 
-
 #dates
 time1 = pd.Timestamp('20150102')
 time2 = pd.Timestamp('20181201')
@@ -16,23 +15,26 @@ test = df2.loc[df2["Date"] >= time3].loc[df2["Date"] <= time4]
 #for i in df2["Date"]: print(i)
 
 #print(test)
+def predictData(data):
+    Y = data["Load"]
 
-Y = training_set["Load"]
+    X = data.drop(["Date", "Hour", "Weekday", "Load"], axis=1)
+    Hourdummies = pd.get_dummies(data["Hour"], prefix="H", drop_first=True)
+    Weekdaydummies = pd.get_dummies(data["Weekday"], prefix="W", drop_first=True)
 
-X = training_set.drop(["Date", "Hour", "Weekday", "Load"], axis=1)
+    X = X.join(Hourdummies)
+    X = X.join(Weekdaydummies)
 
-Hour = training_set["Hour"]
-Hourdummies = pd.get_dummies(Hour, prefix="H", drop_first=True)
+    mod = sm.OLS(Y, X)
+    f2 = mod.fit()
 
-Weekday = training_set["Weekday"]
-Weekdaydummies = pd.get_dummies(Weekday, prefix="W", drop_first=True)
+    Res = f2.predict(X) #predict next value based on past value (lm1, lm2,...)
+    return Res
 
-X = X.join(Hourdummies)
-X = X.join(Weekdaydummies)
+trainingPredictedValue = predictData(training_set)
 
-mod = sm.OLS(Y, X)
-f2 = mod.fit()
+print("predicted values for the training set: \n", trainingPredictedValue)
 
+TrainingSetError = mae(training_set["Load"], trainingPredictedValue)
 
-coefs = f2.summary2().tables[1]['Coef.']
-print(coefs)
+print("Mean absolute error for the training set ", TrainingSetError)
