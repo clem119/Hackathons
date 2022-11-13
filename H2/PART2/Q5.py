@@ -16,6 +16,10 @@ for i in range(34320, 35040, 24):
 
 x_true = [i for i in range(30)]
 MAE = mae(dayMean, predictDayMean)
+
+
+print("Mean absolute error of the test set is :", MAE)
+
 # plot the data
 
 plt.plot(x_true,dayMean)
